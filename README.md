@@ -146,5 +146,3 @@ python test.py
 ## Notes
 
 - Input file paths can be relative to the project root.
-- Generated files in `outputs/` are ignored by Git.
-- This project is intended for analysis and educational use, not clinical diagnosis.
