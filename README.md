@@ -70,7 +70,7 @@ Open the dashboard at [http://127.0.0.1:8000](http://127.0.0.1:8000).
 4. Select the post-processing filters.
 5. Click **Run MRI Pipeline**.
 
-Before the first run, image cards display a prompt instead of broken image placeholders. Generated PNG files are written to `outputs/`.
+Generated PNG files are written to `outputs/`.
 
 ## API
 
