@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MRI Reconstruction Modules</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230c1424'/%3E%3Ccircle cx='32' cy='32' r='18' fill='none' stroke='%23fca5a5' stroke-width='5'/%3E%3Cpath d='M12 32h40M32 12v40' stroke='%23fde68a' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="panel">
+        <p class="eyebrow">Backend MRI Pipeline</p>
+        <h1>MRI Reconstruction Modules</h1>
+        <p class="lede">
+          Module 1 reconstructs MRI from k-space, Module 2 analyzes the frequency spectrum,
+          and Module 3 applies denoising, smoothing, and contrast enhancement.
+        </p>
+
+        <label>
+          H5 File
+          <select id="filePath"></select>
+        </label>
+
+        <div class="grid two">
+          <label>
+            Slice ID
+            <input id="sliceId" type="number" min="0" value="5" />
+          </label>
+
+          <label>
+            Acceleration
+            <input id="acceleration" type="number" min="1" max="16" value="1" />
+          </label>
+        </div>
+
+        <label>
+          Center Fraction
+          <input id="centerFraction" type="number" min="0" max="1" step="0.01" value="0.08" />
+        </label>
+
+        <div class="grid three">
+          <label>
+            Noise Removal
+            <select id="noiseRemoval">
+              <option value="gaussian">Gaussian</option>
+              <option value="median">Median</option>
+              <option value="none">None</option>
+            </select>
+          </label>
+
+          <label>
+            Smoothing
+            <select id="smoothing">
+              <option value="blur">Blur</option>
+              <option value="bilateral">Bilateral</option>
+              <option value="none">None</option>
+            </select>
+          </label>
+
+          <label>
+            Contrast
+            <select id="contrastEnhancement">
+              <option value="clahe">CLAHE</option>
+              <option value="histogram_equalization">Histogram Equalization</option>
+              <option value="none">None</option>
+            </select>
+          </label>
+        </div>
+
+        <button id="runButton">Run MRI Pipeline</button>
+        <p id="statusText" class="status">Ready.</p>
+        <dl id="metadata" class="meta"></dl>
+      </section>
+
+      <section class="results">
+        <article class="card">
+          <div class="card-head">
+            <p class="chip">Module 1</p>
+            <h2>MRI Reconstruction</h2>
+            <p>2D IFFT + FFT shift + RSS coil combination</p>
+          </div>
+          <div class="image-grid two">
+            <figure>
+              <img id="reconstructionImage" alt="MRI reconstruction" hidden />
+              <p class="image-prompt">Run MRI Pipeline to generate this image.</p>
+              <figcaption>Reconstructed MRI</figcaption>
+            </figure>
+            <figure>
+              <img id="groundTruthImage" alt="MRI ground truth" hidden />
+              <p class="image-prompt">Run MRI Pipeline to generate this image.</p>
+              <figcaption>Ground Truth RSS</figcaption>
+            </figure>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-head">
+            <p class="chip">Module 2</p>
+            <h2>MRI Frequency Analysis</h2>
+            <p>2D FFT on the MRI image and k-space visualization</p>
+          </div>
+          <div class="image-grid two">
+            <figure>
+              <img id="kspaceImage" alt="k-space visualization" hidden />
+              <p class="image-prompt">Run MRI Pipeline to generate this image.</p>
+              <figcaption>Sampled k-space</figcaption>
+            </figure>
+            <figure>
+              <img id="frequencyImage" alt="Frequency spectrum" hidden />
+              <p class="image-prompt">Run MRI Pipeline to generate this image.</p>
+              <figcaption>Frequency spectrum</figcaption>
+            </figure>
+          </div>
+          <div class="graph-block">
+            <div class="graph-head">
+              <h3>Frequency Energy Graph</h3>
+              <p id="frequencySummary">Low-to-high frequency energy profile.</p>
+            </div>
+            <svg id="frequencyGraph" viewBox="0 0 640 240" preserveAspectRatio="none" aria-label="Frequency graph">
+              <path id="frequencyArea" class="graph-area"></path>
+              <path id="frequencyLine" class="graph-line"></path>
+            </svg>
+            <div class="graph-axis">
+              <span>Low Frequency</span>
+              <span>High Frequency</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-head">
+            <p class="chip">Module 3</p>
+            <h2>MRI Post-Processing</h2>
+            <p>Noise removal, smoothing, and contrast enhancement</p>
+          </div>
+          <div class="image-grid three">
+            <figure>
+              <img id="noiseRemovedImage" alt="Noise removed MRI" hidden />
+              <p class="image-prompt">Run MRI Pipeline to generate this image.</p>
+              <figcaption>Noise Removed</figcaption>
+            </figure>
+            <figure>
+              <img id="smoothedImage" alt="Smoothed MRI" hidden />
+              <p class="image-prompt">Run MRI Pipeline to generate this image.</p>
+              <figcaption>Smoothed</figcaption>
+            </figure>
+            <figure>
+              <img id="enhancedImage" alt="Enhanced MRI" hidden />
+              <p class="image-prompt">Run MRI Pipeline to generate this image.</p>
+              <figcaption>Enhanced</figcaption>
+            </figure>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>
